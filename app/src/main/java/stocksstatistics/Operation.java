@@ -16,4 +16,24 @@ public class Operation {
         this.closeTime = closeTime;
         ProfitOrLoss = profitOrLoss;
     }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getOpenTime() {
+        return openTime;
+    }
+
+    public String getCloseTime() {
+        return closeTime;
+    }
+
+    public double getProfitOrLoss() {
+        return ProfitOrLoss;
+    }
 }
