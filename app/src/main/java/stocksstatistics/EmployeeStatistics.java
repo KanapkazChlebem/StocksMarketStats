@@ -1,13 +1,15 @@
 package stocksstatistics;
 
+import java.sql.Time;
+
 public class EmployeeStatistics {
     private String favSymbol;
-    private double maxHoldProfit;
-    private double maxHoldLoss;
-    private double avgHoldProfit;
-    private double avgHoldLoss;
-    private double minHoldProfit;
-    private double minHoldLoss;
+    private Time maxHoldProfit;
+    private Time maxHoldLoss;
+    private Time avgHoldProfit;
+    private Time avgHoldLoss;
+    private Time minHoldProfit;
+    private Time minHoldLoss;
     private int maxSequenceProfits;
     private int avgSequenceProfits;
     private int maxSequenceLoss;
@@ -22,6 +24,10 @@ public class EmployeeStatistics {
     private double percentSellProfit;
     private double TotalProfitOrLoss;
     private double avgProfitOrLossOverTime;
+
+
+
+
 
 
 }
