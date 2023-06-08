@@ -2,6 +2,7 @@ package stocksstatistics;
 
 import java.text.DecimalFormat;
 import java.time.Period;
+import java.util.NoSuchElementException;
 
 public class EmployeeStatistics {
     private String favSymbol;

@@ -17,6 +17,9 @@ public class Operation {
         ProfitOrLoss = profitOrLoss;
     }
 
+    public Operation() {
+    }
+
     public String getSymbol() {
         return symbol;
     }

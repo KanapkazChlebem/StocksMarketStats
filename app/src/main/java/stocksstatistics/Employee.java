@@ -1,7 +1,5 @@
 package stocksstatistics;
 
-import java.sql.Time;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -19,9 +17,11 @@ public class Employee {
         return lastName;
     }
 
-    private EmployeeStatistics stats;
+    private EmployeeStatistics overallStats;
+    private EmployeeStatistics lastMonthStats;
     private int minCapacity = 16;
-    private List<Operation> operationList = new ArrayList<>(minCapacity);
+    private List<Operation> overallOperationList = new ArrayList<>(minCapacity);
+    private List<Operation> lastMonthOperationList = new ArrayList<>(minCapacity);
     private String firstName;
     private String lastName;
     private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss", Locale.ENGLISH);
@@ -31,23 +31,40 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public EmployeeStatistics getStats() {
-        return stats;
+    public EmployeeStatistics getOverallStats() {
+        return overallStats;
     }
 
-    public void setStats(EmployeeStatistics stats) {
-        this.stats = stats;
+    public EmployeeStatistics getLastMonthStats() {
+        return lastMonthStats;
     }
 
-    public void addOperationToList(Operation operation) {
-        operationList.add(operation);
+    public void addOperationToOverallList(Operation operation) {
+        overallOperationList.add(operation);
+    }
+    public void addOperationsToMonthList(List<Operation> operationList) {
+        if (operationList.isEmpty()) throw new EmptyStackException();
+        LocalDate lastMoth = LocalDate.now().minusDays(31);
+        for (Operation operation: operationList){
+            if (LocalDate.parse(operation.getOpenTime(), timeFormatter).isAfter(lastMoth))
+                lastMonthOperationList.add(operation);
+        }
     }
 
-    public List<Operation> getOperationList() {
-        return operationList;
+    public List<Operation> getOverallOperationList() {
+        return overallOperationList;
     }
 
     public void calculateStatisticsFromHistory() {
+        addOperationsToMonthList(overallOperationList);
+        if (overallOperationList==null) throw new NullPointerException();
+        overallStats = calculateStatisticsFromHistory(overallOperationList);
+        if (lastMonthOperationList!=null)
+        lastMonthStats = calculateStatisticsFromHistory(lastMonthOperationList);
+    }
+
+    private EmployeeStatistics calculateStatisticsFromHistory(List<Operation> operationList) {
+        if (operationList.isEmpty()) return null;
         List<String> types = new ArrayList<>();
         Period maxHoldProfit = Period.ofDays(0);//Period maxHoldProfit
         Period maxHoldLoss = Period.ofDays(0);//Period maxHoldLoss
@@ -130,7 +147,7 @@ public class Employee {
         double avgSeqLoss = getAvgOfSequences(lossSeqList);
         //determining favorite symbol of operation
         FavSymbolHelper favSymbolHelper = favSymbolAndCounterProvider(types);//favorite symbol and counter
-        stats = new EmployeeStatistics(favSymbolHelper.getFavSymbol(), favSymbolHelper.getFavCounter(), maxHoldProfit, maxHoldLoss,
+        return new EmployeeStatistics(favSymbolHelper.getFavSymbol(), favSymbolHelper.getFavCounter(), maxHoldProfit, maxHoldLoss,
                 avgHoldProfit, avgHoldLoss, maxSequenceProfit, avgSeqProf, maxSequenceLoss, avgSeqLoss,
                 maxProfit, avgProf, maxLoss, avgLoss, totalTransactions, lostLessTransactions,
                 percentProfitTransactions, percentOfBuy, percentOfSell, totalProfitOrLoss, profitOrLossOverTime);

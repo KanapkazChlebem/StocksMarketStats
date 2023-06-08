@@ -3,8 +3,6 @@ package stocksstatistics;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class EmployeeTest {
 
     @Test
@@ -17,13 +15,13 @@ class EmployeeTest {
                 "21.10.2022 10:49:10", 63.61);
         Operation operation2 = new Operation("USDPLN","Sell Limit", "12.10.2022 16:22:44",
                 "13.10.2022 11:00:11", 34.22);
-        employee.addOperationToList(operation0);
-        employee.addOperationToList(operation1);
-        employee.addOperationToList(operation2);
+        employee.addOperationToOverallList(operation0);
+        employee.addOperationToOverallList(operation1);
+        employee.addOperationToOverallList(operation2);
         //when
         employee.calculateStatisticsFromHistory();
         //then
-        System.out.println(employee.getStats().toString());
-        Assertions.assertNotNull(employee.getStats());
+        System.out.println(employee.getOverallStats().toString());
+        Assertions.assertNotNull(employee.getOverallStats());
     }
 }
