@@ -28,7 +28,7 @@ public class Employee {
     public void calculateStatisticsFromHistory() {
         List<String> types = new ArrayList<>();
         Period maxHoldProfit = Period.ofDays(0);//Period maxHoldProfit
-        Period maxHoldLoss = Period.ofDays(0);//Period maxHoldProfit
+        Period maxHoldLoss = Period.ofDays(0);//Period maxHoldLoss
         List<Period> holdTimesProfit = new ArrayList<>();//Period avgHoldProfit
         List<Period> holdTimesLoss = new ArrayList<>();//Period avgHoldLoss
         int lostLessTransactions = 0;
@@ -90,8 +90,8 @@ public class Employee {
             } else lostLessTransactions++;
             //
         }
-        Period avgHoldProfit=avgOfHoldPeriods(holdTimesProfit);
-        Period avgHoldLoss=avgOfHoldPeriods(holdTimesLoss);
+        Period avgHoldProfit = avgOfHoldPeriods(holdTimesProfit);
+        Period avgHoldLoss = avgOfHoldPeriods(holdTimesLoss);
         double profitOrLossOverTime = totalProfitOrLoss / daysOfWork.getDays();
         double percentOfBuy = buyProfCounter / types.size();
         double percentOfSell = sellProfCounter / types.size();
@@ -104,29 +104,111 @@ public class Employee {
         double avgSeqProf = getAvgOfSequences(profitSeqList);
         double avgSeqLoss = getAvgOfSequences(lossSeqList);
         //determining favorite symbol of operation
-        HashSet<String> typesSet = new HashSet<>();
-        typesSet.addAll(types);
-        int favSymbolCounter = 0;
-        String favSymbol="";
-        for (String name : typesSet
-        ) {
-            if (favSymbolCounter < Collections.frequency(types, name)) {
-                favSymbolCounter = Collections.frequency(types, name);
-                favSymbol = name;
-            }
-        }
-        stats = new EmployeeStatistics(favSymbol, favSymbolCounter, maxHoldProfit, maxHoldLoss,
-        avgHoldProfit, avgHoldLoss, maxSequenceProfit, avgSeqProf, maxSequenceLoss, avgSeqLoss,
+        FavSymbolHelper favSymbolHelper = favSymbolAndCounterProvider(types);//favorite symbol and counter
+        stats = new EmployeeStatistics(favSymbolHelper.getFavSymbol(), favSymbolHelper.getFavCounter(), maxHoldProfit, maxHoldLoss,
+                avgHoldProfit, avgHoldLoss, maxSequenceProfit, avgSeqProf, maxSequenceLoss, avgSeqLoss,
                 maxProfit, avgProf, maxLoss, avgLoss, totalTransactions, lostLessTransactions,
                 percentProfitTransactions, percentOfBuy, percentOfSell, totalProfitOrLoss, profitOrLossOverTime);
+    }
+
+    private FavSymbolHelper favSymbolAndCounterProvider(List<String> types) {//determining favorite symbol and counter of operation
+        HashSet<String> typesSet = new HashSet<>();
+        typesSet.addAll(types);
+        FavSymbolHelper favSymbolHelper = new FavSymbolHelper();
+        for (String name : typesSet
+        ) {
+            if (favSymbolHelper.getFavCounter() < Collections.frequency(types, name)) {
+                favSymbolHelper.setFavCounter( Collections.frequency(types, name));
+                favSymbolHelper.setFavSymbol(name);
+            }
+        }
+        return favSymbolHelper;
+    }
+
+
+    private Period maxHoldProfitProvider() {
+        return null;
+    }
+
+    private Period maxHoldLossProvider() {
+        return null;
+    }
+
+    private Period avgHoldProfitProvider() {
+        return null;
+    }
+
+    private Period avgHoldLossProvider() {
+        return null;
+    }
+
+    private int maxSequenceProfitsProvider() {
+        return -1;
+    }
+
+    private double avgSequenceProfitsProvider() {
+        return -1;
+    }
+
+    private int maxSequenceLossProvider() {
+        return -1;
+    }
+
+    private double avgSequenceLossProvider() {
+        return -1;
+    }
+
+    private double maxProfitTransactionsProvider() {
+        return -1;
+    }
+
+    private double avgProfitTransactionsProvider() {
+        return -1;
+    }
+
+    private double maxLossTransactionsProvider() {
+        return -1;
+    }
+
+    private double avgLossTransactionsProvider() {
+        return -1;
+    }
+
+    private int totalTransactionsProvider() {
+        return -1;
+    }
+
+    private int lostLessTransactionsProvider() {
+        return -1;
+    }
+
+    private double percentProfitTransactionsProvider() {
+        return -1;
+    }
+
+    private double percentBuyProfitProvider() {
+        return -1;
+    }
+
+    private double percentSellProfitProvider() {
+        return -1;
+    }
+
+    private double TotalProfitOrLossProvider() {
+        return -1;
+    }
+
+    private double avgProfitOrLossOverTimeProvider() {
+        return -1;
     }
 
     private Period avgOfHoldPeriods(List<Period> periods) {
         Period avg = Period.ofDays(0);
         for (Period period : periods
-        ) {avg= Period.ofDays(period.getDays());
+        ) {
+            avg = Period.ofDays(period.getDays());
         }
-        return Period.ofDays(avg.getDays()/ periods.size());
+        return Period.ofDays(avg.getDays() / periods.size());
     }
 
     private double getAvgOfSequences(List<int> list) {
