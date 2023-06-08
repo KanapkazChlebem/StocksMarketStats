@@ -79,6 +79,6 @@ class EmployeeDatabaseTest {
         employeeDatabase.addEmployeeWithOperations(employee02);
         employeeDatabase.getEmployeeWithLastName("Krawczyk").calculateStatisticsFromHistory();
         //then
-        Assertions.assertEquals(employee02,employeeDatabase.findOverallBestEmployee("totalProfit"));//Kowalski -802; Krawczyk -84
+        Assertions.assertEquals(employee02,employeeDatabase.findOverallBestEmployee("5"));//Kowalski -802; Krawczyk -84
     }
 }

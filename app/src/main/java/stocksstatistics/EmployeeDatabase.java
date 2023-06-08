@@ -121,7 +121,7 @@ public class EmployeeDatabase implements Serializable {
     public Employee findOverallBestEmployee(String criteria){
         Employee bestEmployee = null;
         switch (criteria){
-            case "maxSequenceProfits":{
+            case "1":{
                 for (Employee employee: employeeList){
                     if (bestEmployee==null) bestEmployee=employee;
                     else if (bestEmployee.getOverallStats().getMaxSequenceProfits()<
@@ -129,37 +129,37 @@ public class EmployeeDatabase implements Serializable {
                 }
                 break;
             }
-            case "avgSequenceProfits":{for (Employee employee: employeeList){
+            case "2":{for (Employee employee: employeeList){
                 if (bestEmployee==null) bestEmployee=employee;
                 else if (bestEmployee.getOverallStats().getAvgSequenceProfits()<
                         employee.getOverallStats().getAvgSequenceProfits()) bestEmployee=employee;
             }
                 break;}
-            case "maxProfitTransactions":{for (Employee employee: employeeList){
+            case "3":{for (Employee employee: employeeList){
                 if (bestEmployee==null) bestEmployee=employee;
                 else if (bestEmployee.getOverallStats().getMaxProfitTransactions()<
                         employee.getOverallStats().getMaxProfitTransactions()) bestEmployee=employee;
             }
                 break;}
-            case "avgProfitTransactions":{for (Employee employee: employeeList){
+            case "4":{for (Employee employee: employeeList){
                 if (bestEmployee==null) bestEmployee=employee;
                 else if (bestEmployee.getOverallStats().getAvgProfitTransactions()<
                         employee.getOverallStats().getAvgProfitTransactions()) bestEmployee=employee;
             }
                 break;}
-            case "totalProfit":{for (Employee employee: employeeList){
+            case "5":{for (Employee employee: employeeList){
                 if (bestEmployee==null) bestEmployee=employee;
                 else if (bestEmployee.getOverallStats().getTotalProfitOrLoss()<
                         employee.getOverallStats().getTotalProfitOrLoss()) bestEmployee=employee;
             }
                 break;}
-            case "totalTransactions":{for (Employee employee: employeeList){
+            case "6":{for (Employee employee: employeeList){
                 if (bestEmployee==null) bestEmployee=employee;
                 else if (bestEmployee.getOverallStats().getTotalTransactions()<
                         employee.getOverallStats().getTotalTransactions()) bestEmployee=employee;
             }
                 break;}
-            case "percentProfitTransactions":{for (Employee employee: employeeList){
+            case "7":{for (Employee employee: employeeList){
                 if (bestEmployee==null) bestEmployee=employee;
                 else if (bestEmployee.getOverallStats().getPercentProfitTransactions()<
                         employee.getOverallStats().getPercentProfitTransactions()) bestEmployee=employee;
