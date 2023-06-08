@@ -38,10 +38,10 @@ public class EmployeeDatabase {
                                 type = values[i];
                                 break;
                             case 4://open
-                                openTime = values[i];
+                                openTime = values[i];//.replace("  "," ");
                                 break;
                             case 6://close
-                                closeTime = values[i];
+                                closeTime = values[i];//.replace("  "," ");
                                 break;
                             case 8://net profit
                                 profitOrLoss = Double.parseDouble(values[i]);

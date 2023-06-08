@@ -4,17 +4,29 @@ import java.sql.Time;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Employee {
+
     private EmployeeStatistics stats;
-    private List<Operation> operationList = new ArrayList<>();
+    private int minCapacity = 16;
+    private List<Operation> operationList = new ArrayList<>(minCapacity);
     private String firstName;
     private String lastName;
+    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm", Locale.ENGLISH);
 
     public Employee(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public EmployeeStatistics getStats() {
+        return stats;
+    }
+
+    public void setStats(EmployeeStatistics stats) {
+        this.stats = stats;
     }
 
     public void addOperationToList(Operation operation) {
@@ -38,17 +50,17 @@ public class Employee {
         int maxSequenceProfit = 0;
         int maxSequenceLoss = 0;
         boolean wasLastLoss = false;
-        List<int> profitSeqList = new ArrayList<int>();
-        List<int> lossSeqList = new ArrayList<int>();
+        List<Integer> profitSeqList = new ArrayList<>();
+        List<Integer> lossSeqList = new ArrayList<>();
         //end sequences
         double maxProfit = 0;
-        List<double> profits = new ArrayList<double>();
+        List<Double> profits = new ArrayList<>();
         double maxLoss = 0;
-        List<double> losses = new ArrayList<double>();
-        int buyProfCounter = 0;
-        int sellProfCounter = 0;
+        List<Double> losses = new ArrayList<>();
+        double buyProfCounter = 0;
+        double sellProfCounter = 0;
         double totalProfitOrLoss = 0;
-        LocalDate startDate = LocalDate.parse(operationList.get(0).getOpenTime());
+        LocalDate startDate = LocalDate.parse(operationList.get(0).getOpenTime(), timeFormatter);
         Period daysOfWork = Period.between(startDate, LocalDate.now());
         for (Operation operation : operationList
         ) {
@@ -56,33 +68,33 @@ public class Employee {
             types.add(operation.getType());//to determine favorite symbol of operation
             totalProfitOrLoss += operation.getProfitOrLoss();
             if (operation.getProfitOrLoss() > 0) {
+                profitSeqCounter++;
                 if (operation.getType().contains("Buy")) buyProfCounter++;
                 else sellProfCounter++;
                 profits.add(operation.getProfitOrLoss());
                 if (maxProfit < operation.getProfitOrLoss()) maxProfit = operation.getProfitOrLoss();
                 if (wasLastLoss == false) {
-                    profitSeqCounter++;
                     if (profitSeqCounter > maxSequenceProfit) maxSequenceProfit = profitSeqCounter;
                 } else {
                     wasLastLoss = false;
-                    lossSeqList.add(lossSeqCounter);
+                    if (lossSeqCounter != 0) lossSeqList.add(lossSeqCounter);
                     lossSeqCounter = 0;
-                    profitSeqCounter++;
+                    if (profitSeqCounter > maxSequenceProfit) maxSequenceProfit = profitSeqCounter;
                 }//sequences
                 holdTimesProfit.add(period);//Period avgHoldProfit
                 if (maxHoldProfit.getDays() < period.getDays()) //Period maxHoldProfit
                     maxHoldProfit = period;
             } else if (operation.getProfitOrLoss() < 0) {
-                losses.add(operation.getProfitOrLoss());
+                lossSeqCounter++;//sequenced losses
+                losses.add(operation.getProfitOrLoss());//all losses
                 if (maxLoss > operation.getProfitOrLoss()) maxLoss = operation.getProfitOrLoss();
                 if (wasLastLoss == true) {
-                    lossSeqCounter++;
                     if (lossSeqCounter > maxSequenceLoss) maxSequenceLoss = lossSeqCounter;
                 } else {
                     wasLastLoss = true;
-                    profitSeqList.add(profitSeqCounter);
+                    if (profitSeqCounter != 0) profitSeqList.add(profitSeqCounter);
                     profitSeqCounter = 0;
-                    lossSeqCounter++;
+                    if (lossSeqCounter > maxSequenceLoss) maxSequenceLoss = lossSeqCounter;
                 }//sequences
                 holdTimesLoss.add(period); //Period avgHoldLoss
                 if (maxHoldLoss.getDays() < period.getDays()) //Period maxHoldLoss
@@ -90,13 +102,16 @@ public class Employee {
             } else lostLessTransactions++;
             //
         }
+        if (profitSeqCounter != 0) profitSeqList.add(profitSeqCounter);
+        if (lossSeqCounter != 0) lossSeqList.add(lossSeqCounter);
         Period avgHoldProfit = avgOfHoldPeriods(holdTimesProfit);
         Period avgHoldLoss = avgOfHoldPeriods(holdTimesLoss);
         double profitOrLossOverTime = totalProfitOrLoss / daysOfWork.getDays();
         double percentOfBuy = buyProfCounter / types.size();
         double percentOfSell = sellProfCounter / types.size();
-        int totalTransactions = losses.size() + profits.size() + lostLessTransactions;
-        double percentProfitTransactions = totalTransactions / profits.size();
+        double totalTransactions = losses.size() + profits.size() + lostLessTransactions;
+        double profitTransactions = profits.size();
+        double percentProfitTransactions = profitTransactions / totalTransactions;
         //avg of Profits and losses
         double avgProf = getAvgOfProfitsOrLosses(profits);
         double avgLoss = getAvgOfProfitsOrLosses(losses);
@@ -118,7 +133,7 @@ public class Employee {
         for (String name : typesSet
         ) {
             if (favSymbolHelper.getFavCounter() < Collections.frequency(types, name)) {
-                favSymbolHelper.setFavCounter( Collections.frequency(types, name));
+                favSymbolHelper.setFavCounter(Collections.frequency(types, name));
                 favSymbolHelper.setFavSymbol(name);
             }
         }
@@ -206,12 +221,12 @@ public class Employee {
         Period avg = Period.ofDays(0);
         for (Period period : periods
         ) {
-            avg = Period.ofDays(period.getDays());
+            avg = Period.ofDays(period.getDays() + avg.getDays());
         }
         return Period.ofDays(avg.getDays() / periods.size());
     }
 
-    private double getAvgOfSequences(List<int> list) {
+    private double getAvgOfSequences(List<Integer> list) {
         double avg = 0;
         for (int element : list
         )
@@ -219,7 +234,7 @@ public class Employee {
         return avg / list.size();
     }
 
-    private double getAvgOfProfitsOrLosses(List<double> list) {
+    private double getAvgOfProfitsOrLosses(List<Double> list) {
         double avg = 0;
         for (double element : list
         )
@@ -228,8 +243,8 @@ public class Employee {
     }
 
     private Period getHoldTime(String openTime, String closeTime) {
-        LocalDate start = LocalDate.parse(openTime);
-        LocalDate end = LocalDate.parse(closeTime);
+        LocalDate start = LocalDate.parse(openTime, timeFormatter);
+        LocalDate end = LocalDate.parse(closeTime, timeFormatter);
         return Period.between(start, end);
     }
 }

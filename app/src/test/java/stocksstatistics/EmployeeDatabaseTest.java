@@ -13,7 +13,7 @@ class EmployeeDatabaseTest {
     void isaddEmployeeWithHistoryProvidingEmployeeWithOperationList() {
         //given
         String currentDirectory = System.getProperty("user.dir");
-        String fileName = currentDirectory+"/xStationTest.xlsx";
+        String fileName = currentDirectory+"/xStation5Test.csv";
         String firstName = "Jan";
         String lastName = "Kowalski";
         EmployeeDatabase employeeDatabase = new EmployeeDatabase();
@@ -26,5 +26,14 @@ class EmployeeDatabaseTest {
         //then
         Assertions.assertFalse(employeeDatabase.getEmployeeList().isEmpty());
         Assertions.assertFalse(employeeDatabase.getEmployeeList().get(0).getOperationList().isEmpty());
+    }
+
+    @Test
+    void isCalculateStatisticsFromHistoryCorrectlyCalucalingStats(){
+        //given
+
+        //when
+
+        //then
     }
 }

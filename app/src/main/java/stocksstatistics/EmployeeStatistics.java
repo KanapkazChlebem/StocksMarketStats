@@ -1,5 +1,6 @@
 package stocksstatistics;
 
+import java.text.DecimalFormat;
 import java.time.Period;
 
 public class EmployeeStatistics {
@@ -17,15 +18,43 @@ public class EmployeeStatistics {
     private double avgProfitTransactions;
     private double maxLossTransactions;
     private double avgLossTransactions;
-    private int totalTransactions;
+    private double totalTransactions;
     private int lostLessTransactions;//
     private double percentProfitTransactions;
     private double percentBuyProfit;
     private double percentSellProfit;
     private double TotalProfitOrLoss;
     private double avgProfitOrLossOverTime;
+    private static final DecimalFormat decfor = new DecimalFormat("0.00");
 
-    public EmployeeStatistics(String favSymbol, int favSymbolCounter, Period maxHoldProfit, Period maxHoldLoss, Period avgHoldProfit, Period avgHoldLoss, int maxSequenceProfits, double avgSequenceProfits, int maxSequenceLoss, double avgSequenceLoss, double maxProfitTransactions, double avgProfitTransactions, double maxLossTransactions, double avgLossTransactions, int totalTransactions, int lostLessTransactions, double percentProfitTransactions, double percentBuyProfit, double percentSellProfit, double totalProfitOrLoss, double avgProfitOrLossOverTime) {
+    @Override
+    public String toString() {
+        return "EmployeeStatistics{" +
+                "favSymbol='" + favSymbol + '\'' +
+                ", favSymbolCounter=" + favSymbolCounter +
+                ", maxHoldProfit=" + maxHoldProfit.getDays() + " Days" +
+                ", maxHoldLoss=" + maxHoldLoss.getDays() + " Days" +
+                ", avgHoldProfit=" + avgHoldProfit.getDays() + " Days" +
+                ", avgHoldLoss=" + avgHoldLoss.getDays() + " Days" +
+                ", maxSequenceProfits=" + maxSequenceProfits +
+                ", avgSequenceProfits=" + decfor.format(avgSequenceProfits) +
+                ", maxSequenceLoss=" + maxSequenceLoss +
+                ", avgSequenceLoss=" + decfor.format(avgSequenceLoss) +
+                ", maxProfitTransactions=" + maxProfitTransactions +
+                ", avgProfitTransactions=" + decfor.format(avgProfitTransactions) +
+                ", maxLossTransactions=" + decfor.format(maxLossTransactions) +
+                ", avgLossTransactions=" + decfor.format(avgLossTransactions) +
+                ", totalTransactions=" + totalTransactions +
+                ", lostLessTransactions=" + lostLessTransactions +
+                ", percentProfitTransactions=" + decfor.format(percentProfitTransactions * 100) + "%" +
+                ", percentBuyProfit=" + decfor.format(percentBuyProfit * 100) + "%" +
+                ", percentSellProfit=" + decfor.format(percentSellProfit * 100) + "%" +
+                ", TotalProfitOrLoss=" + TotalProfitOrLoss +
+                ", avgProfitOrLossOverTime=" + decfor.format(avgProfitOrLossOverTime)+" per day" +
+                '}';
+    }
+
+    public EmployeeStatistics(String favSymbol, int favSymbolCounter, Period maxHoldProfit, Period maxHoldLoss, Period avgHoldProfit, Period avgHoldLoss, int maxSequenceProfits, double avgSequenceProfits, int maxSequenceLoss, double avgSequenceLoss, double maxProfitTransactions, double avgProfitTransactions, double maxLossTransactions, double avgLossTransactions, double totalTransactions, int lostLessTransactions, Double percentProfitTransactions, Double percentBuyProfit, double percentSellProfit, double totalProfitOrLoss, double avgProfitOrLossOverTime) {
         this.favSymbol = favSymbol;
         this.favSymbolCounter = favSymbolCounter;
         this.maxHoldProfit = maxHoldProfit;
@@ -162,11 +191,11 @@ public class EmployeeStatistics {
         this.avgLossTransactions = avgLossTransactions;
     }
 
-    public int getTotalTransactions() {
+    public double getTotalTransactions() {
         return totalTransactions;
     }
 
-    public void setTotalTransactions(int totalTransactions) {
+    public void setTotalTransactions(double totalTransactions) {
         this.totalTransactions = totalTransactions;
     }
 
