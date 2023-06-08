@@ -1,11 +1,12 @@
 package stocksstatistics;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class Employee {
+public class Employee implements Serializable{
     public Employee() {
     }
 
@@ -24,7 +25,7 @@ public class Employee {
     private List<Operation> lastMonthOperationList = new ArrayList<>(minCapacity);
     private String firstName;
     private String lastName;
-    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss", Locale.ENGLISH);
+    private transient final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss", Locale.ENGLISH);
 
     public Employee(String firstName, String lastName) {
         this.firstName = firstName;

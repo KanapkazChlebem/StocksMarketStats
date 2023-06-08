@@ -1,8 +1,9 @@
 package stocksstatistics;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Operation {
+public class Operation implements Serializable {
     private String symbol;
     private String type;
     private String openTime;

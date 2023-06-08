@@ -1,10 +1,10 @@
 package stocksstatistics;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.time.Period;
-import java.util.NoSuchElementException;
 
-public class EmployeeStatistics {
+public class EmployeeStatistics implements Serializable {
     private String favSymbol;
     private int favSymbolCounter;
     private Period maxHoldProfit;

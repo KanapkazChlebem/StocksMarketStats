@@ -3,10 +3,11 @@ package stocksstatistics;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeDatabase {
+public class EmployeeDatabase implements Serializable {
 
     private List<Employee> employeeList = new ArrayList<>();
 
@@ -173,7 +174,7 @@ public class EmployeeDatabase {
     public Employee getEmployeeWithLastName(String lastname){
         if (lastname==null) return null;
         for (Employee employee: employeeList ){
-            if (employee.getLastName()==lastname) return employee;
+            if (employee.getLastName().equals(lastname)) return employee;
         }
         System.err.println("Employee with "+lastname+" lastname not found!");
         return null;
