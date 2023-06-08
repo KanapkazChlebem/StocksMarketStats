@@ -49,7 +49,7 @@ public class EmployeeStatistics {
                 ", percentProfitTransactions=" + decfor.format(percentProfitTransactions * 100) + "%" +
                 ", percentBuyProfit=" + decfor.format(percentBuyProfit * 100) + "%" +
                 ", percentSellProfit=" + decfor.format(percentSellProfit * 100) + "%" +
-                ", TotalProfitOrLoss=" + TotalProfitOrLoss +
+                ", TotalProfitOrLoss=" + decfor.format(TotalProfitOrLoss) +
                 ", avgProfitOrLossOverTime=" + decfor.format(avgProfitOrLossOverTime)+" per day" +
                 '}';
     }

@@ -29,11 +29,22 @@ class EmployeeDatabaseTest {
     }
 
     @Test
-    void isCalculateStatisticsFromHistoryCorrectlyCalucalingStats(){
+    void isEmployeeStatsSuccessfullyCreatedWithStats(){
         //given
-
+        String currentDirectory = System.getProperty("user.dir");
+        String fileName = currentDirectory+"/xStation5Test.csv";
+        String firstName = "Jan";
+        String lastName = "Kowalski";
+        EmployeeDatabase employeeDatabase = new EmployeeDatabase();
         //when
-
+        try {
+            employeeDatabase.addEmployeeWithHistory(firstName,lastName,fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        employeeDatabase.getEmployeeWithLastName("Kowalski").calculateStatisticsFromHistory();
         //then
+        System.out.println(employeeDatabase.getEmployeeWithLastName("Kowalski").getStats().toString());
+        Assertions.assertNotNull(employeeDatabase.getEmployeeWithLastName("Kowalski").getStats());
     }
 }

@@ -8,13 +8,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Employee {
+    public Employee() {
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
 
     private EmployeeStatistics stats;
     private int minCapacity = 16;
     private List<Operation> operationList = new ArrayList<>(minCapacity);
     private String firstName;
     private String lastName;
-    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm", Locale.ENGLISH);
+    private final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss", Locale.ENGLISH);
 
     public Employee(String firstName, String lastName) {
         this.firstName = firstName;
@@ -107,8 +117,8 @@ public class Employee {
         Period avgHoldProfit = avgOfHoldPeriods(holdTimesProfit);
         Period avgHoldLoss = avgOfHoldPeriods(holdTimesLoss);
         double profitOrLossOverTime = totalProfitOrLoss / daysOfWork.getDays();
-        double percentOfBuy = buyProfCounter / types.size();
-        double percentOfSell = sellProfCounter / types.size();
+        double percentOfBuy = buyProfCounter / profits.size();
+        double percentOfSell = sellProfCounter / profits.size();
         double totalTransactions = losses.size() + profits.size() + lostLessTransactions;
         double profitTransactions = profits.size();
         double percentProfitTransactions = profitTransactions / totalTransactions;

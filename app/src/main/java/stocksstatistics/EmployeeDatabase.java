@@ -15,7 +15,7 @@ public class EmployeeDatabase {
         return employeeList;
     }
 
-    public String COMMA_DELIMITER = ",";
+    public String DELIMITER = ";";
 
     public void addEmployeeWithHistory(String firstName, String lastName, String fileName) throws IOException {
         Employee employee = new Employee(firstName, lastName);
@@ -26,9 +26,10 @@ public class EmployeeDatabase {
             String openTime = null;
             String closeTime = null;
             double profitOrLoss = 0;
+            String firstLineOfFile = "Symbol";
             while ((line = br.readLine()) != null) {
-                String[] values = line.split(COMMA_DELIMITER);
-                if (values[0] != "Symbol") {
+                String[] values = line.split(DELIMITER);
+                if (!values[0].equals(firstLineOfFile)) {
                     for (int i = 0; i < values.length; i++) {
                         switch (i) {
                             case 0://symbol
@@ -55,6 +56,15 @@ public class EmployeeDatabase {
             e.printStackTrace();
         }
         employeeList.add(employee);
+    }
+
+    public Employee getEmployeeWithLastName(String lastname){
+        if (lastname==null) return null;
+        for (Employee employee: employeeList ){
+            if (employee.getLastName()==lastname) return employee;
+        }
+        System.err.println("Employee with "+lastname+" lastname not found!");
+        return null;
     }
 
 
