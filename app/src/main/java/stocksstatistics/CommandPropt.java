@@ -1,6 +1,8 @@
 package stocksstatistics;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class CommandPropt {
@@ -9,7 +11,7 @@ public class CommandPropt {
     private Scanner scanner = new Scanner(System.in);
     private String command = null;
 
-    public void commandLoop() {
+    public void commandLoop() throws IOException {
         String response = null;
         System.out.println("Wybierz co chesz zrobic:" + '\n' +
                 "1 - Wczytaj istniejaca baze danych" + '\n' +
@@ -20,7 +22,7 @@ public class CommandPropt {
                 "6 - Wyswietl statystyki pracownika" + '\n' +
                 "7 - Wyswietl listę pracowników" + '\n' +
                 "8 - Wyjdz");
-        command = scanner.next();
+        command = scanner.nextLine();
         switch (command) {
             case "1": {
                 System.out.println("Podaj nazwe bazy, lub zostaw puste:");
