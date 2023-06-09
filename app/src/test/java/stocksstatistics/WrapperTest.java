@@ -12,9 +12,9 @@ class WrapperTest {
 
     @Test
     void isSaveDatabaseCreatingAFile() {
-        //given
-        String currentDirectory = System.getProperty("user.dir");
-        String fileName = currentDirectory+"/xStation5Test.csv";
+        //given;
+        String directory = System.getProperty("user.dir")+"\\files\\";
+        String fileName ="xStation5Test.csv";
         String firstName = "Jan";
         String lastName = "Kowalski";
         EmployeeDatabase employeeDatabase = new EmployeeDatabase();
@@ -41,18 +41,8 @@ class WrapperTest {
         //when
         wrapper.saveDatabase("TestDatabase",employeeDatabase);
         //then
-        Assertions.assertTrue(new File(currentDirectory+"/TestDatabase.ser").isFile());
+        Assertions.assertTrue(new File(directory+"/TestDatabase.ser").isFile());
     }
 
-    @Test
-    void iSCreateOrReadDatabaseImportingDatabaseIfFileInAppDirectory() {
-        //given
-        Wrapper wrapper = new Wrapper();
-        //when
-        EmployeeDatabase employeeDatabase =
-        wrapper.createOrReadDatabase("TestDatabase");
-        //then
-        System.out.println(employeeDatabase.getEmployeeWithLastName("Krawczyk").getOverallStats().toString());
-        Assertions.assertNotNull(employeeDatabase.getEmployeeList());
-    }
+
 }

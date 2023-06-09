@@ -20,12 +20,12 @@ public class CommandPropt {
                 "6 - Wyswietl statystyki pracownika" + '\n' +
                 "7 - Wyswietl listę pracowników" + '\n' +
                 "8 - Wyjdz");
-        command = scanner.nextLine();
+        command = scanner.next();
         switch (command) {
             case "1": {
                 System.out.println("Podaj nazwe bazy, lub zostaw puste:");
                 response = scanner.nextLine();
-                if (response.isBlank()) response = null;
+                if (response==null) response = null;
                 employeeDatabase = wrapper.createOrReadDatabase(response);
                 System.out.println("Pomyslnie wczytano baze");
                 commandLoop();
@@ -34,7 +34,7 @@ public class CommandPropt {
             case "2": {
                 System.out.println("Podaj nazwe bazy do zapisu, lub zostaw puste:");
                 response = scanner.nextLine();
-                if (response.isBlank()) response = null;
+                if (response==null) response = null;
                 wrapper.saveDatabase(response, employeeDatabase);
                 System.out.println("Pomyslnie zapisano baze");
                 commandLoop();

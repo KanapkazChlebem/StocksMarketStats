@@ -11,8 +11,7 @@ class EmployeeDatabaseTest {
     @Test
     void isaddEmployeeWithHistoryProvidingEmployeeWithOperationList() {
         //given
-        String currentDirectory = System.getProperty("user.dir");
-        String fileName = currentDirectory+"/xStation5Test.csv";
+        String fileName = "xStation5Test";
         String firstName = "Jan";
         String lastName = "Kowalski";
         EmployeeDatabase employeeDatabase = new EmployeeDatabase();
@@ -30,8 +29,7 @@ class EmployeeDatabaseTest {
     @Test
     void isEmployeeStatsSuccessfullyCreatedWithStats(){
         //given
-        String currentDirectory = System.getProperty("user.dir");
-        String fileName = currentDirectory+"/xStation5Test.csv";
+        String fileName = "xStation5Test.csv";
         String firstName = "Jan";
         String lastName = "Kowalski";
         EmployeeDatabase employeeDatabase = new EmployeeDatabase();
@@ -52,8 +50,7 @@ class EmployeeDatabaseTest {
     @Test
     void isFindOverallBestEmployeeReturningBestEmployee() {
         //given
-        String currentDirectory = System.getProperty("user.dir");
-        String fileName = currentDirectory+"/xStation5Test.csv";
+        String fileName = "xStation5Test.csv";
         String firstName = "Jan";
         String lastName = "Kowalski";
         EmployeeDatabase employeeDatabase = new EmployeeDatabase();
