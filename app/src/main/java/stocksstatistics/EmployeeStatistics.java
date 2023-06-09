@@ -8,8 +8,8 @@ public class EmployeeStatistics implements Serializable {
     private String favSymbol;
     private int favSymbolCounter;
     private Period maxHoldProfit;
-    private Period maxHoldLoss;
     private Period avgHoldProfit;
+    private Period maxHoldLoss;
     private Period avgHoldLoss;
     private int maxSequenceProfits;
     private double avgSequenceProfits;
