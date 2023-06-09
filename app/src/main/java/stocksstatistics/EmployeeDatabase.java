@@ -1,13 +1,14 @@
 package stocksstatistics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeDatabase implements Serializable {
+
+    private String directory = System.getProperty("user.dir")+"\\";
 
     private List<Employee> employeeList = new ArrayList<>();
 
@@ -22,7 +23,11 @@ public class EmployeeDatabase implements Serializable {
         else employeeList.add(employee);
     }
 
-    public void addEmployeeWithHistory(String firstName, String lastName, String fileName) throws IOException {
+    public Employee addEmployeeWithHistory(String firstName, String lastName, String fileName) throws IOException {
+        if (fileName==null) return null;
+        if (!fileName.endsWith(".csv")) fileName=fileName+ ".csv";
+        fileName=directory+fileName;
+        if (!Files.exists(Path.of(fileName))) return null;
         Employee employee = new Employee(firstName, lastName);
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line = null;
@@ -63,6 +68,7 @@ public class EmployeeDatabase implements Serializable {
             e.printStackTrace();
         }
         employeeList.add(employee);
+        return employee;
     }
 
     public Employee findLastMonthBestEmployee(String criteria){

@@ -33,6 +33,7 @@ public class Employee implements Serializable{
     }
 
     public EmployeeStatistics getOverallStats() {
+        if (overallStats==null) calculateStatisticsFromHistory();
         return overallStats;
     }
 
@@ -168,82 +169,6 @@ public class Employee implements Serializable{
         return favSymbolHelper;
     }
 
-
-    private Period maxHoldProfitProvider() {
-        return null;
-    }
-
-    private Period maxHoldLossProvider() {
-        return null;
-    }
-
-    private Period avgHoldProfitProvider() {
-        return null;
-    }
-
-    private Period avgHoldLossProvider() {
-        return null;
-    }
-
-    private int maxSequenceProfitsProvider() {
-        return -1;
-    }
-
-    private double avgSequenceProfitsProvider() {
-        return -1;
-    }
-
-    private int maxSequenceLossProvider() {
-        return -1;
-    }
-
-    private double avgSequenceLossProvider() {
-        return -1;
-    }
-
-    private double maxProfitTransactionsProvider() {
-        return -1;
-    }
-
-    private double avgProfitTransactionsProvider() {
-        return -1;
-    }
-
-    private double maxLossTransactionsProvider() {
-        return -1;
-    }
-
-    private double avgLossTransactionsProvider() {
-        return -1;
-    }
-
-    private int totalTransactionsProvider() {
-        return -1;
-    }
-
-    private int lostLessTransactionsProvider() {
-        return -1;
-    }
-
-    private double percentProfitTransactionsProvider() {
-        return -1;
-    }
-
-    private double percentBuyProfitProvider() {
-        return -1;
-    }
-
-    private double percentSellProfitProvider() {
-        return -1;
-    }
-
-    private double TotalProfitOrLossProvider() {
-        return -1;
-    }
-
-    private double avgProfitOrLossOverTimeProvider() {
-        return -1;
-    }
 
     private Period avgOfHoldPeriods(List<Period> periods) {
         Period avg = Period.ofDays(0);

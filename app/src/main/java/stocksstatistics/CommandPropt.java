@@ -7,8 +7,10 @@ public class CommandPropt {
     Wrapper wrapper = new Wrapper();
     EmployeeDatabase employeeDatabase = new EmployeeDatabase();
     private Scanner scanner = new Scanner(System.in);
-    private String command = scanner.nextLine();
+    private String command = null;
+
     public void commandLoop(){
+        String response = null;
         System.out.println("Wybierz co chesz zrobic:"+'\n'+
                 "1 - Wczytaj istniejaca baze danych"+'\n'+
                 "2 - Zapisz baze na ktorej pracujesz"+'\n'+
@@ -16,21 +18,22 @@ public class CommandPropt {
                 "4 - Znajdz najlepszego pracownika wzgledem kryteriow"+'\n'+
                 "5 - Wyswietl statystyki pracownika"+'\n'+
                 "6 - Wyjdz");
+        command=scanner.nextLine();
         switch (command){
             case "1":{
                 System.out.println("Podaj nazwe bazy, lub zostaw puste:");
-                command=scanner.nextLine();
-                if (command.isBlank()) command=null;
-                employeeDatabase = wrapper.createOrReadDatabase(command);
+                response=scanner.nextLine();
+                if (response.isBlank()) response=null;
+                employeeDatabase = wrapper.createOrReadDatabase(response);
                 System.out.println("Pomyslnie wczytano baze");
                 commandLoop();
                 break;
             }
             case "2":{
                 System.out.println("Podaj nazwe bazy do zapisu, lub zostaw puste:");
-                command=scanner.nextLine();
-                if (command.isBlank()) command=null;
-                wrapper.saveDatabase(command,employeeDatabase);
+                response=scanner.nextLine();
+                if (response.isBlank()) response=null;
+                wrapper.saveDatabase(response,employeeDatabase);
                 System.out.println("Pomyslnie wczytano baze");
                 commandLoop();
                 break;
@@ -41,10 +44,14 @@ public class CommandPropt {
                 String imie = scanner.nextLine();
                 System.out.println("Podaj nazwisko pracownika");
                 String nazwisko = scanner.nextLine();
-                System.out.println("Podaj nazwę pliku .csv (Powinien znajdowac sie w folderze app)");
-                command = scanner.nextLine();
+                System.out.println("Podaj nazwę pliku .csv");
+                response = scanner.nextLine();
                 try {
-                    employeeDatabase.addEmployeeWithHistory(imie,nazwisko,command);
+                    if (employeeDatabase.addEmployeeWithHistory(imie,nazwisko,response)==null){
+                        System.err.println("Bledna nazwa pliku/ plik nie istnieje!");
+                        commandLoop();
+                        break;
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -61,9 +68,9 @@ public class CommandPropt {
                         "4 - srednia zyskow,"+'\n'+
                         "5 - suma zyskow,"+'\n'+
                         "6 - procent zyskownych transakcji");
-                command= scanner.nextLine();
-                if (Integer.getInteger(command)<7&&Integer.getInteger(command)>0) {
-                    Employee bestEmployee = employeeDatabase.findOverallBestEmployee(command);
+                response= scanner.nextLine();
+                if (Integer.getInteger(response)<7&&Integer.getInteger(response)>0) {
+                    Employee bestEmployee = employeeDatabase.findOverallBestEmployee(response);
                     System.out.println("Najlepszy pracownik pod wybranym katem to "+bestEmployee.getFirstName()+
                             " "+bestEmployee.getLastName()+'\n'+
                             "Jego statystyki: "+'\n'+ bestEmployee.getOverallStats().toString());
@@ -76,9 +83,9 @@ public class CommandPropt {
             }
             case "5":{
                 System.out.println("Podaj nazwisko pracownika");
-                command = scanner.nextLine();
+                response = scanner.nextLine();
                 Employee employee =
-                        employeeDatabase.getEmployeeWithLastName(command);
+                        employeeDatabase.getEmployeeWithLastName(response);
                 if (employee == null) {
                     System.err.println("Podany pracownik nie istnieje w bazie");
                     commandLoop();
@@ -97,5 +104,8 @@ public class CommandPropt {
                 break;
             }
         }
+    }
+
+    public CommandPropt() {
     }
 }
