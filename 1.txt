@@ -1,3 +1,0 @@
-cd /C/Users/ktark/OneDrive/Documents/Studia_3/zaliczenie_pp
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519

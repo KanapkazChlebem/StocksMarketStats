@@ -1,17 +1,23 @@
 package stocksstatistics;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class CommandPropt {
+    private boolean start = true;
     Wrapper wrapper = new Wrapper();
     EmployeeDatabase employeeDatabase = new EmployeeDatabase();
     private Scanner scanner = new Scanner(System.in);
     private String command = null;
 
     public void commandLoop() throws IOException {
+        if (start) {
+            employeeDatabase = wrapper.readDatabase("");
+            if (employeeDatabase.getEmployeeList().size() != 0) {
+                System.out.println("Pomyślnie wczytano domyślną bazę danych!");
+            }
+        }
+        start=false;
         String response = null;
         System.out.println("Wybierz co chesz zrobic:" + '\n' +
                 "1 - Wczytaj istniejaca baze danych" + '\n' +
@@ -22,28 +28,34 @@ public class CommandPropt {
                 "6 - Wyswietl statystyki pracownika" + '\n' +
                 "7 - Wyswietl listę pracowników" + '\n' +
                 "8 - Wyjdz");
-        command = scanner.nextLine();
+        try {
+            command = scanner.nextLine();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         switch (command) {
-            case "1": {
+            case "1" -> {
                 System.out.println("Podaj nazwe bazy, lub zostaw puste:");
                 response = scanner.nextLine();
-                if (response==null) response = null;
-                employeeDatabase = wrapper.createOrReadDatabase(response);
-                System.out.println("Pomyslnie wczytano baze");
+                if (response == null) response = null;
+                employeeDatabase = wrapper.readDatabase(response);
+                if (employeeDatabase.getEmployeeList().size() != 0) System.out.println("Pomyslnie wczytano baze");
+                else {
+                    System.err.println("Nie znaleziono bazy danych o nazwie " + response + "!");
+                }
                 commandLoop();
                 break;
             }
-            case "2": {
+            case "2" -> {
                 System.out.println("Podaj nazwe bazy do zapisu, lub zostaw puste:");
                 response = scanner.nextLine();
-                if (response==null) response = null;
                 wrapper.saveDatabase(response, employeeDatabase);
                 System.out.println("Pomyslnie zapisano baze");
                 commandLoop();
                 break;
 
             }
-            case "3": {
+            case "3" -> {
                 System.out.println("Podaj imie pracownika");
                 String imie = scanner.nextLine();
                 System.out.println("Podaj nazwisko pracownika");
@@ -63,18 +75,18 @@ public class CommandPropt {
                 commandLoop();
                 break;
             }
-            case "4": {
+            case "4" -> {
                 System.out.println("Podaj nazwisko pracownika do usuniecia");
                 response = scanner.nextLine();
                 if (employeeDatabase.removeEmployee(response) == true) {
                     System.out.println("Pracownik o nazwisku " + response + " został usunięty!");
                     commandLoop();
                     break;
-                } else System.out.println("Nie znaleziono pracownika o nazwisku " + response);
+                } else System.err.println("Nie znaleziono pracownika o nazwisku " + response);
                 commandLoop();
                 break;
             }
-            case "5": {
+            case "5" -> {
                 System.out.println("Podaj kryteria wzgledem pracownika:" + '\n' +
                         "1 - najwieksza sekwencja zyskow," + '\n' +
                         "2 - srednia sekwencja zyskow," + '\n' +
@@ -93,11 +105,11 @@ public class CommandPropt {
                     commandLoop();
                     break;
                 } else
-                    System.out.println("Bledny wybor lub baza pusta, powrot do menu");
+                    System.err.println("Bledny wybor lub baza pusta, powrot do menu");
                 commandLoop();
                 break;
             }
-            case "6": {
+            case "6" -> {
                 System.out.println("Podaj nazwisko pracownika");
                 response = scanner.nextLine();
                 Employee employee =
@@ -116,13 +128,14 @@ public class CommandPropt {
                     case "1": {
                         if (employee.getLastMonthStats() == null) {
                             System.err.println("Ten pracownik nie ma operacji z ostatniego miesiaca!");
-                            commandLoop();
-                            break;
+                        } else {
+                            System.out.println("Wybrany Pracownik to " + employee.getFirstName() +
+                                    " " + employee.getLastName() + '\n' +
+                                    "Jego statystyki: " + '\n');
+                            employeeDatabase.printMonthEmployeeStats(employee);
                         }
-                        System.out.println("Wybrany Pracownik to " + employee.getFirstName() +
-                                " " + employee.getLastName() + '\n' +
-                                "Jego statystyki: " + '\n');
-                        employeeDatabase.printMonthEmployeeStats(employee);
+                        commandLoop();
+                        break;
                     }
                     case "2": {
                         System.out.println("Wybrany Pracownik to " + employee.getFirstName() +
@@ -132,15 +145,13 @@ public class CommandPropt {
                     }
                     default: {
                     }
-                    commandLoop();
-                    break;
                 }
 
                 commandLoop();
                 break;
             }
-            case "7": {
-                if (employeeDatabase == null) {
+            case "7" -> {
+                if (employeeDatabase.getEmployeeList().size()==0) {
                     System.out.println("Baza danych pusta! Wczytaj najpier bazę lub dodaj pracownika");
                     commandLoop();
                     break;
@@ -149,19 +160,21 @@ public class CommandPropt {
                 commandLoop();
                 break;
             }
-            case "8": {
-                System.err.println("Czy chcesz zapisać baze danych na której pracowałeś?" + '\n' +
-                        "1 - Tak" + '\n' +
-                        "Dowolny klawisz - Nie, wyjdź z programu");
-                response = scanner.nextLine();
-                if (response == "1") {
-                    wrapper.saveDatabase(employeeDatabase.getFileName(), employeeDatabase);
-                    break;
+            case "8" -> {
+                if (employeeDatabase.getEmployeeList().size() != 0) {
+                    System.err.println("Czy chcesz zapisać baze danych na której pracowałeś?" + '\n' +
+                            "1 - Tak" + '\n' +
+                            "Dowolny klawisz - Nie, wyjdź z programu");
+                    response = scanner.nextLine();
+                    if (response.equals("1")) {
+                        wrapper.saveDatabase(employeeDatabase.getFileName(), employeeDatabase);
+                        break;
+                    }
                 }
                 break;
             }
-            default: {
-                System.out.println("Bledny wybor, sprobuj jeszcze raz");
+            default -> {
+                System.err.println("Bledny wybor, sprobuj jeszcze raz");
                 commandLoop();
                 break;
             }

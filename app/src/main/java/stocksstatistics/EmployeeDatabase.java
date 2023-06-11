@@ -24,7 +24,7 @@ public class EmployeeDatabase implements Serializable {
         this.fileName = fileName;
     }
 
-    private String directory = System.getProperty("user.dir")+"\\files\\";
+    private String directory = System.getProperty("user.dir") + "\\files\\";
 
     private List<Employee> employeeList = new ArrayList<>();
 
@@ -34,19 +34,19 @@ public class EmployeeDatabase implements Serializable {
 
     public String DELIMITER = ";";
 
-    public void addEmployeeWithOperations(Employee employee){
-        if (employee==null) throw new NullPointerException();
+    public void addEmployeeWithOperations(Employee employee) {
+        if (employee == null) throw new NullPointerException();
         else employeeList.add(employee);
     }
 
-    public void listAllEmployees(){
+    public void listAllEmployees() {
         AsciiTable at = new AsciiTable();
         at.setTextAlignment(TextAlignment.LEFT);
         at.addRule();
         at.addRow(new Object[]{"Imię", "Nazwisko"});
         at.addRule();
         Iterator var2 = this.employeeList.iterator();
-        while(var2.hasNext()) {
+        while (var2.hasNext()) {
             Employee employee = (Employee) var2.next();
             at.addRow(new Object[]{employee.getFirstName(), employee.getLastName()});
         }
@@ -57,9 +57,9 @@ public class EmployeeDatabase implements Serializable {
 
 
     public Employee addEmployeeWithHistory(String firstName, String lastName, String fileName) throws IOException {
-        if (fileName==null) return null;
-        if (!fileName.endsWith(".csv")) fileName=fileName+ ".csv";
-        fileName=directory+fileName;
+        if (fileName == null) return null;
+        if (!fileName.endsWith(".csv")) fileName = fileName + ".csv";
+        fileName = directory + fileName;
         if (!Files.exists(Path.of(fileName))) return null;
         Employee employee = new Employee(firstName, lastName);
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
@@ -93,7 +93,7 @@ public class EmployeeDatabase implements Serializable {
                                 break;
                         }
                     }
-                    operation =new Operation(symbol, type, openTime, closeTime, profitOrLoss);
+                    operation = new Operation(symbol, type, openTime, closeTime, profitOrLoss);
                     employee.addOperationToOverallList(operation);
                 }
             }
@@ -105,107 +105,133 @@ public class EmployeeDatabase implements Serializable {
         return employee;
     }
 
-    public Employee findLastMonthBestEmployee(String criteria){
+    public Employee findLastMonthBestEmployee(String criteria) {
         Employee bestEmployee = null;
-        switch (criteria){
-            case "maxSequenceProfits":{
-                for (Employee employee: employeeList){
-                    if (bestEmployee==null) bestEmployee=employee;
-                    else if (bestEmployee.getLastMonthStats().getMaxSequenceProfits()<
-                            employee.getLastMonthStats().getMaxSequenceProfits()) bestEmployee=employee;
+        switch (criteria) {
+            case "maxSequenceProfits": {
+                for (Employee employee : employeeList) {
+                    if (bestEmployee == null) bestEmployee = employee;
+                    else if (bestEmployee.getLastMonthStats().getMaxSequenceProfits() <
+                            employee.getLastMonthStats().getMaxSequenceProfits()) bestEmployee = employee;
                 }
                 break;
             }
-            case "avgSequenceProfits":{for (Employee employee: employeeList){
-                if (bestEmployee==null) bestEmployee=employee;
-                else if (bestEmployee.getLastMonthStats().getAvgSequenceProfits()<
-                        employee.getLastMonthStats().getAvgSequenceProfits()) bestEmployee=employee;
+            case "avgSequenceProfits": {
+                for (Employee employee : employeeList) {
+                    if (bestEmployee == null) bestEmployee = employee;
+                    else if (bestEmployee.getLastMonthStats().getAvgSequenceProfits() <
+                            employee.getLastMonthStats().getAvgSequenceProfits()) bestEmployee = employee;
+                }
+                break;
             }
-                break;}
-            case "maxProfitTransactions":{for (Employee employee: employeeList){
-                if (bestEmployee==null) bestEmployee=employee;
-                else if (bestEmployee.getLastMonthStats().getMaxProfitTransactions()<
-                        employee.getLastMonthStats().getMaxProfitTransactions()) bestEmployee=employee;
+            case "maxProfitTransactions": {
+                for (Employee employee : employeeList) {
+                    if (bestEmployee == null) bestEmployee = employee;
+                    else if (bestEmployee.getLastMonthStats().getMaxProfitTransactions() <
+                            employee.getLastMonthStats().getMaxProfitTransactions()) bestEmployee = employee;
+                }
+                break;
             }
-                break;}
-            case "avgProfitTransactions":{for (Employee employee: employeeList){
-                if (bestEmployee==null) bestEmployee=employee;
-                else if (bestEmployee.getLastMonthStats().getAvgProfitTransactions()<
-                        employee.getLastMonthStats().getAvgProfitTransactions()) bestEmployee=employee;
+            case "avgProfitTransactions": {
+                for (Employee employee : employeeList) {
+                    if (bestEmployee == null) bestEmployee = employee;
+                    else if (bestEmployee.getLastMonthStats().getAvgProfitTransactions() <
+                            employee.getLastMonthStats().getAvgProfitTransactions()) bestEmployee = employee;
+                }
+                break;
             }
-                break;}
-            case "totalProfit":{for (Employee employee: employeeList){
-                if (bestEmployee==null) bestEmployee=employee;
-                else if (bestEmployee.getLastMonthStats().getTotalProfitOrLoss()<
-                        employee.getLastMonthStats().getTotalProfitOrLoss()) bestEmployee=employee;
+            case "totalProfit": {
+                for (Employee employee : employeeList) {
+                    if (bestEmployee == null) bestEmployee = employee;
+                    else if (bestEmployee.getLastMonthStats().getTotalProfitOrLoss() <
+                            employee.getLastMonthStats().getTotalProfitOrLoss()) bestEmployee = employee;
+                }
+                break;
             }
-                break;}
-            case "totalTransactions":{for (Employee employee: employeeList){
-                if (bestEmployee==null) bestEmployee=employee;
-                else if (bestEmployee.getLastMonthStats().getTotalTransactions()<
-                        employee.getLastMonthStats().getTotalTransactions()) bestEmployee=employee;
+            case "totalTransactions": {
+                for (Employee employee : employeeList) {
+                    if (bestEmployee == null) bestEmployee = employee;
+                    else if (bestEmployee.getLastMonthStats().getTotalTransactions() <
+                            employee.getLastMonthStats().getTotalTransactions()) bestEmployee = employee;
+                }
+                break;
             }
-                break;}
-            case "percentProfitTransactions":{for (Employee employee: employeeList){
-                if (bestEmployee==null) bestEmployee=employee;
-                else if (bestEmployee.getLastMonthStats().getPercentProfitTransactions()<
-                        employee.getLastMonthStats().getPercentProfitTransactions()) bestEmployee=employee;
+            case "percentProfitTransactions": {
+                for (Employee employee : employeeList) {
+                    if (bestEmployee == null) bestEmployee = employee;
+                    else if (bestEmployee.getLastMonthStats().getPercentProfitTransactions() <
+                            employee.getLastMonthStats().getPercentProfitTransactions()) bestEmployee = employee;
+                }
+                break;
             }
-                break;}
-            default : return null;
+            default:
+                return null;
 
         }
         return bestEmployee;
     }
 
-    public Employee findOverallBestEmployee(String criteria){
+    public Employee findOverallBestEmployee(String criteria) {
         Employee bestEmployee = null;
-        switch (criteria){
-            case "1":{
-                for (Employee employee: employeeList){
-                    if (bestEmployee==null) bestEmployee=employee;
-                    else if (bestEmployee.getOverallStats().getMaxSequenceProfits()<
-                    employee.getOverallStats().getMaxSequenceProfits()) bestEmployee=employee;
+        switch (criteria) {
+            case "1": {
+                for (Employee employee : employeeList) {
+                    if (bestEmployee == null) bestEmployee = employee;
+                    else if (bestEmployee.getOverallStats().getMaxSequenceProfits() <
+                            employee.getOverallStats().getMaxSequenceProfits()) bestEmployee = employee;
                 }
                 break;
             }
-            case "2":{for (Employee employee: employeeList){
-                if (bestEmployee==null) bestEmployee=employee;
-                else if (bestEmployee.getOverallStats().getAvgSequenceProfits()<
-                        employee.getOverallStats().getAvgSequenceProfits()) bestEmployee=employee;
+            case "2": {
+                for (Employee employee : employeeList) {
+                    if (bestEmployee == null) bestEmployee = employee;
+                    else if (bestEmployee.getOverallStats().getAvgSequenceProfits() <
+                            employee.getOverallStats().getAvgSequenceProfits()) bestEmployee = employee;
+                }
+                break;
             }
-                break;}
-            case "3":{for (Employee employee: employeeList){
-                if (bestEmployee==null) bestEmployee=employee;
-                else if (bestEmployee.getOverallStats().getMaxProfitTransactions()<
-                        employee.getOverallStats().getMaxProfitTransactions()) bestEmployee=employee;
+            case "3": {
+                for (Employee employee : employeeList) {
+                    if (bestEmployee == null) bestEmployee = employee;
+                    else if (bestEmployee.getOverallStats().getMaxProfitTransactions() <
+                            employee.getOverallStats().getMaxProfitTransactions()) bestEmployee = employee;
+                }
+                break;
             }
-                break;}
-            case "4":{for (Employee employee: employeeList){
-                if (bestEmployee==null) bestEmployee=employee;
-                else if (bestEmployee.getOverallStats().getAvgProfitTransactions()<
-                        employee.getOverallStats().getAvgProfitTransactions()) bestEmployee=employee;
+            case "4": {
+                for (Employee employee : employeeList) {
+                    if (bestEmployee == null) bestEmployee = employee;
+                    else if (bestEmployee.getOverallStats().getAvgProfitTransactions() <
+                            employee.getOverallStats().getAvgProfitTransactions()) bestEmployee = employee;
+                }
+                break;
             }
-                break;}
-            case "5":{for (Employee employee: employeeList){
-                if (bestEmployee==null) bestEmployee=employee;
-                else if (bestEmployee.getOverallStats().getTotalProfitOrLoss()<
-                        employee.getOverallStats().getTotalProfitOrLoss()) bestEmployee=employee;
+            case "5": {
+                for (Employee employee : employeeList) {
+                    if (bestEmployee == null) bestEmployee = employee;
+                    else if (bestEmployee.getOverallStats().getTotalProfitOrLoss() <
+                            employee.getOverallStats().getTotalProfitOrLoss()) bestEmployee = employee;
+                }
+                break;
             }
-                break;}
-            case "6":{for (Employee employee: employeeList){
-                if (bestEmployee==null) bestEmployee=employee;
-                else if (bestEmployee.getOverallStats().getTotalTransactions()<
-                        employee.getOverallStats().getTotalTransactions()) bestEmployee=employee;
+            case "6": {
+                for (Employee employee : employeeList) {
+                    if (bestEmployee == null) bestEmployee = employee;
+                    else if (bestEmployee.getOverallStats().getTotalTransactions() <
+                            employee.getOverallStats().getTotalTransactions()) bestEmployee = employee;
+                }
+                break;
             }
-                break;}
-            case "7":{for (Employee employee: employeeList){
-                if (bestEmployee==null) bestEmployee=employee;
-                else if (bestEmployee.getOverallStats().getPercentProfitTransactions()<
-                        employee.getOverallStats().getPercentProfitTransactions()) bestEmployee=employee;
+            case "7": {
+                for (Employee employee : employeeList) {
+                    if (bestEmployee == null) bestEmployee = employee;
+                    else if (bestEmployee.getOverallStats().getPercentProfitTransactions() <
+                            employee.getOverallStats().getPercentProfitTransactions()) bestEmployee = employee;
+                }
+                break;
             }
-                break;}
-            default : return null;
+            default:
+                return null;
 
         }
         return bestEmployee;
@@ -213,91 +239,135 @@ public class EmployeeDatabase implements Serializable {
 
     private static final DecimalFormat decfor = new DecimalFormat("0.00");
 
-    public void printOverallEmployeeStats(Employee employee){
+    public void printOverallEmployeeStats(Employee employee) {
         AsciiTable at = new AsciiTable();
         at.setTextAlignment(TextAlignment.CENTER);
         at.addRule();
         at.addRow(new Object[]{"Imię", "Nazwisko", "Preferowane transakcje",
-        "Ilosc transakcji","Najdluzsza zyskowna transakcja", "Sredni czas zyskownych transakcji",
-        "Najdluzsza stratna transakcja","Sreni czas stratnych transakcji","Najwieksza sekwencja zyskow",
-        "Srednia sekwencja zyskow","Najwieksza sekwencja strat","Srednia sekwencja strat",
-        "Najwiekszy zysk","Srednia zyskow","Najwieksza strata","Srednia strat","Suma transakcji","Transakcje \"zerowe\"",
-        "Procent zyskow","Procent zyskow BUY","Procent zyskow SELL","Suma zyskow i strat","Bilans na dzien od zatrudnienia"});
+                "Ilosc transakcji", "Najdluzsza zyskowna transakcja", "Sredni czas zyskownych transakcji"});
         at.addRule();
-            at.addRow(new Object[]{employee.getFirstName(), employee.getLastName(),employee.getOverallStats().getFavSymbol(),
-                    employee.getOverallStats().getFavSymbolCounter(),employee.getOverallStats().getMaxHoldProfit().getDays()+" Dni",
-                    employee.getOverallStats().getAvgHoldProfit().getDays()+" Dni", employee.getOverallStats().getMaxHoldLoss().getDays()+" Dni",
-                    employee.getOverallStats().getAvgHoldLoss().getDays()+" Dni",employee.getOverallStats().getMaxSequenceProfits(),
-                    decfor.format(employee.getOverallStats().getAvgSequenceProfits()),employee.getOverallStats().getMaxSequenceLoss(),
-                    decfor.format(employee.getOverallStats().getAvgSequenceLoss()),employee.getOverallStats().getMaxProfitTransactions(),
-                    decfor.format(employee.getOverallStats().getAvgProfitTransactions()),employee.getOverallStats().getMaxLossTransactions(),
-                    decfor.format(employee.getOverallStats().getAvgLossTransactions()),employee.getOverallStats().getTotalTransactions(),
-                    employee.getOverallStats().getLostLessTransactions(),decfor.format(employee.getOverallStats().getPercentProfitTransactions() * 100) + "%",
-                    decfor.format(employee.getOverallStats().getPercentBuyProfit() * 100) + "%",
-                    decfor.format(employee.getOverallStats().getPercentSellProfit() * 100) + "%",
-                    employee.getOverallStats().getTotalProfitOrLoss(),decfor.format(employee.getOverallStats().getAvgProfitOrLossOverTime())+" na dzien"});
+        at.addRow(new Object[]{
+                employee.getFirstName(),
+                employee.getLastName(),
+                employee.getOverallStats().getFavSymbol(),
+                employee.getOverallStats().getFavSymbolCounter(),
+                employee.getOverallStats().getMaxHoldProfit().getDays() + " Dni",
+                employee.getOverallStats().getAvgHoldProfit().getDays() + " Dni"});
         at.addRule();
-        at.getRenderer().setCWC((new CWC_FixedWidth()).add(20).add(20).add(20).add(20).add(30)
-                .add(20).add(20).add(20).add(20).add(20).add(20).add(20).add(20).add(20).add(20)
-                .add(20).add(20).add(20).add(20).add(20).add(20).add(20).add(20));
+        at.addRow(new Object[]{
+                "Najdluzsza stratna transakcja", "Sreni czas stratnych transakcji", "Najwieksza sekwencja zyskow",
+                "Srednia sekwencja zyskow", "Najwieksza sekwencja strat", "Srednia sekwencja strat"});
+        at.addRule();
+        at.addRow(new Object[]{
+                employee.getOverallStats().getMaxHoldLoss().getDays() + " Dni",
+                employee.getOverallStats().getAvgHoldLoss().getDays() + " Dni",
+                employee.getOverallStats().getMaxSequenceProfits(),
+                decfor.format(employee.getOverallStats().getAvgSequenceProfits()),
+                employee.getOverallStats().getMaxSequenceLoss(),
+                decfor.format(employee.getOverallStats().getAvgSequenceLoss()),});
+        at.addRule();
+        at.addRow(new Object[]{
+                "Najwiekszy zysk", "Srednia zyskow", "Najwieksza strata", "Srednia strat", "Suma transakcji", "Transakcje \"zerowe\""});
+        at.addRule();
+        at.addRow(new Object[]{
+                employee.getOverallStats().getMaxProfitTransactions(),
+                decfor.format(employee.getOverallStats().getAvgProfitTransactions()),
+                employee.getOverallStats().getMaxLossTransactions(),
+                decfor.format(employee.getOverallStats().getAvgLossTransactions()),
+                employee.getOverallStats().getTotalTransactions(),
+                employee.getOverallStats().getLostLessTransactions()});
+        at.addRule();
+        at.addRow(new Object[]{
+                "Procent zyskow", "Procent zyskow BUY", "Procent zyskow SELL", "Suma zyskow i strat", "Bilans na dzien od zatrudnienia", " "});
+        at.addRule();
+        at.addRow(new Object[]{
+                decfor.format(employee.getOverallStats().getPercentProfitTransactions() * 100) + "%",
+                decfor.format(employee.getOverallStats().getPercentBuyProfit() * 100) + "%",
+                decfor.format(employee.getOverallStats().getPercentSellProfit() * 100) + "%",
+                employee.getOverallStats().getTotalProfitOrLoss(),
+                decfor.format(employee.getOverallStats().getAvgProfitOrLossOverTime()) + " na dzien", " "});
+        at.addRule();
+        at.getRenderer().setCWC((new CWC_FixedWidth()).add(20).add(20).add(20).add(20).add(20)
+                .add(20));
         System.out.println(at.render());
 
-
     }
+
     public boolean printMonthEmployeeStats(Employee employee){
         if (employee.getLastMonthStats()==null) return false;
         AsciiTable at = new AsciiTable();
         at.setTextAlignment(TextAlignment.CENTER);
         at.addRule();
         at.addRow(new Object[]{"Imię", "Nazwisko", "Preferowane transakcje",
-                "Ilosc transakcji","Najdluzsza zyskowna transakcja", "Sredni czas zyskownych transakcji",
-                "Najdluzsza stratna transakcja","Sreni czas stratnych transakcji","Najwieksza sekwencja zyskow",
-                "Srednia sekwencja zyskow","Najwieksza sekwencja strat","Srednia sekwencja strat",
-                "Najwiekszy zysk","Srednia zyskow","Najwieksza strata","Srednia strat","Suma transakcji","Transakcje \"zerowe\"",
-                "Procent zyskow","Procent zyskow BUY","Procent zyskow SELL","Suma zyskow i strat","Bilans na dzien od zatrudnienia"});
+                "Ilosc transakcji", "Najdluzsza zyskowna transakcja", "Sredni czas zyskownych transakcji"});
         at.addRule();
-        at.addRow(new Object[]{employee.getFirstName(), employee.getLastName(),employee.getLastMonthStats().getFavSymbol(),
-                employee.getLastMonthStats().getFavSymbolCounter(),employee.getLastMonthStats().getMaxHoldProfit().getDays()+" Dni",
-                employee.getLastMonthStats().getAvgHoldProfit().getDays()+" Dni", employee.getLastMonthStats().getMaxHoldLoss().getDays()+" Dni",
-                employee.getLastMonthStats().getAvgHoldLoss().getDays()+" Dni",employee.getLastMonthStats().getMaxSequenceProfits(),
-                decfor.format(employee.getLastMonthStats().getAvgSequenceProfits()),employee.getLastMonthStats().getMaxSequenceLoss(),
-                decfor.format(employee.getLastMonthStats().getAvgSequenceLoss()),employee.getLastMonthStats().getMaxProfitTransactions(),
-                decfor.format(employee.getLastMonthStats().getAvgProfitTransactions()),employee.getLastMonthStats().getMaxLossTransactions(),
-                decfor.format(employee.getLastMonthStats().getAvgLossTransactions()),employee.getLastMonthStats().getTotalTransactions(),
-                employee.getLastMonthStats().getLostLessTransactions(),decfor.format(employee.getLastMonthStats().getPercentProfitTransactions() * 100) + "%",
+        at.addRow(new Object[]{
+                employee.getFirstName(),
+                employee.getLastName(),
+                employee.getLastMonthStats().getFavSymbol(),
+                employee.getLastMonthStats().getFavSymbolCounter(),
+                employee.getLastMonthStats().getMaxHoldProfit().getDays() + " Dni",
+                employee.getLastMonthStats().getAvgHoldProfit().getDays() + " Dni"});
+        at.addRule();
+        at.addRow(new Object[]{
+                "Najdluzsza stratna transakcja", "Sreni czas stratnych transakcji", "Najwieksza sekwencja zyskow",
+                "Srednia sekwencja zyskow", "Najwieksza sekwencja strat", "Srednia sekwencja strat"});
+        at.addRule();
+        at.addRow(new Object[]{
+                employee.getLastMonthStats().getMaxHoldLoss().getDays() + " Dni",
+                employee.getLastMonthStats().getAvgHoldLoss().getDays() + " Dni",
+                employee.getLastMonthStats().getMaxSequenceProfits(),
+                decfor.format(employee.getLastMonthStats().getAvgSequenceProfits()),
+                employee.getLastMonthStats().getMaxSequenceLoss(),
+                decfor.format(employee.getLastMonthStats().getAvgSequenceLoss()),});
+        at.addRule();
+        at.addRow(new Object[]{
+                "Najwiekszy zysk", "Srednia zyskow", "Najwieksza strata", "Srednia strat", "Suma transakcji", "Transakcje \"zerowe\""});
+        at.addRule();
+        at.addRow(new Object[]{
+                employee.getLastMonthStats().getMaxProfitTransactions(),
+                decfor.format(employee.getLastMonthStats().getAvgProfitTransactions()),
+                employee.getLastMonthStats().getMaxLossTransactions(),
+                decfor.format(employee.getLastMonthStats().getAvgLossTransactions()),
+                employee.getLastMonthStats().getTotalTransactions(),
+                employee.getLastMonthStats().getLostLessTransactions()});
+        at.addRule();
+        at.addRow(new Object[]{
+                "Procent zyskow", "Procent zyskow BUY", "Procent zyskow SELL", "Suma zyskow i strat", "Bilans na dzien od zatrudnienia", " "});
+        at.addRule();
+        at.addRow(new Object[]{
+                decfor.format(employee.getLastMonthStats().getPercentProfitTransactions() * 100) + "%",
                 decfor.format(employee.getLastMonthStats().getPercentBuyProfit() * 100) + "%",
                 decfor.format(employee.getLastMonthStats().getPercentSellProfit() * 100) + "%",
-                employee.getLastMonthStats().getTotalProfitOrLoss(),decfor.format(employee.getLastMonthStats().getAvgProfitOrLossOverTime())+" na dzien"});
+                employee.getLastMonthStats().getTotalProfitOrLoss(),
+                decfor.format(employee.getLastMonthStats().getAvgProfitOrLossOverTime()) + " na dzien", " "});
         at.addRule();
-        at.getRenderer().setCWC((new CWC_FixedWidth()).add(20).add(20).add(20).add(20).add(30)
-                .add(20).add(20).add(20).add(20).add(20).add(20).add(20).add(20).add(20).add(20)
-                .add(20).add(20).add(20).add(20).add(20).add(20).add(20).add(20));
+        at.getRenderer().setCWC((new CWC_FixedWidth()).add(20).add(20).add(20).add(20).add(20)
+                .add(20));
         System.out.println(at.render());
         return true;
-
     }
 
 
-    public boolean removeEmployee(String lastName){
-        if (lastName==null) return false;
-        for (Employee employee:employeeList){
-            if (employee.getLastName().equals(lastName)){ employeeList.remove(employee);
-            return true;
+    public boolean removeEmployee(String lastName) {
+        if (lastName == null) return false;
+        for (Employee employee : employeeList) {
+            if (employee.getLastName().equals(lastName)) {
+                employeeList.remove(employee);
+                return true;
             }
         }
         return false;
     }
 
-    public Employee getEmployeeWithLastName(String lastname){
-        if (lastname==null) return null;
-        for (Employee employee: employeeList ){
+    public Employee getEmployeeWithLastName(String lastname) {
+        if (lastname == null) return null;
+        for (Employee employee : employeeList) {
             if (employee.getLastName().equals(lastname)) return employee;
         }
-        System.err.println("Employee with "+lastname+" lastname not found!");
+        System.err.println("Employee with " + lastname + " lastname not found!");
         return null;
     }
-
-
 
 
 }

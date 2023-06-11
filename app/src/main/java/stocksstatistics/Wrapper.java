@@ -11,27 +11,31 @@ public class Wrapper {
     }
 
     public void saveDatabase(String fileName, EmployeeDatabase database) {
-        if (fileName==null){ fileName = database.getFileName();
-        } else database.setFileName(fileName);
-        fileName = directory + fileName;
-        if (!fileName.endsWith(".ser")) fileName += ".ser";
-        try {
-            FileOutputStream fileOutputStream = new FileOutputStream(fileName);
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
-            //write
-            objectOutputStream.writeObject(database);
-            //close stream
-            objectOutputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (database.getEmployeeList().size()==0) System.err.println("Obecna baza danych jest pusta, nie mozna zapisać!");
+        else {
+            if (fileName.equals("")) {
+                fileName = database.getFileName();
+            } else
+            if (!fileName.endsWith(".ser")) fileName += ".ser";
+            database.setFileName(fileName);
+            fileName = directory + fileName;
+            try {
+                FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+                //write
+                objectOutputStream.writeObject(database);
+                //close stream
+                objectOutputStream.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
     }
 
-    public EmployeeDatabase createOrReadDatabase(String fileName) {
-        if (fileName==null)
+    public EmployeeDatabase readDatabase(String fileName) {
+        if (fileName.equals(""))
             fileName = "DefaultDatabase";
         String databaseName = fileName + ".ser";
         EmployeeDatabase database = new EmployeeDatabase();
@@ -39,12 +43,7 @@ public class Wrapper {
         fileName = directory + fileName;
         if (!fileName.endsWith(".ser")) fileName = fileName + ".ser";
         if (!Files.exists(Path.of(fileName))) {
-            try {
-                File file = new File(fileName);
-                file.createNewFile();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            return database;
         } else
             try {
                 ObjectInputStream objectInputStream = null;
@@ -56,7 +55,7 @@ public class Wrapper {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        return database;
+       return database;
     }
 
 }
