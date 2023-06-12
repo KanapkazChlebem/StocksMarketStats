@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="stocksstatistics.EmployeeDatabaseTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2023-06-11T21:20:43" hostname="DESKTOP-8NS0GGV" time="0.064">
+  <properties/>
+  <testcase name="isEmployeeStatsSuccessfullyCreatedWithStats()" classname="stocksstatistics.EmployeeDatabaseTest" time="0.053"/>
+  <testcase name="isaddEmployeeWithHistoryProvidingEmployeeWithOperationList()" classname="stocksstatistics.EmployeeDatabaseTest" time="0.003"/>
+  <testcase name="isFindOverallBestEmployeeReturningBestEmployee()" classname="stocksstatistics.EmployeeDatabaseTest" time="0.006"/>
+  <system-out><![CDATA[EmployeeStatistics{favSymbol='Sell Limit', favSymbolCounter=14, maxHoldProfit=13 Days, maxHoldLoss=27 Days, avgHoldProfit=1 Days, avgHoldLoss=10 Days, maxSequenceProfits=13, avgSequenceProfits=4,80, maxSequenceLoss=2, avgSequenceLoss=1,40, maxProfitTransactions=63.41, avgProfitTransactions=17,12, maxLossTransactions=-639,10, avgLossTransactions=-173,28, totalTransactions=31.0, lostLessTransactions=0, percentProfitTransactions=77,42%, percentBuyProfit=37,50%, percentSellProfit=62,50%, TotalProfitOrLoss=-802,18, avgProfitOrLossOverTime=-26,74 per day}
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

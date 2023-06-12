@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="stocksstatistics.WrapperTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-06-11T21:20:43" hostname="DESKTOP-8NS0GGV" time="0.012">
+  <properties/>
+  <testcase name="isSaveDatabaseCreatingAFile()" classname="stocksstatistics.WrapperTest" time="0.012"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
